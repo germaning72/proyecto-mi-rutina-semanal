@@ -1,0 +1,249 @@
+/**
+ * ==============================================================================
+ * HOJA DE ESTILOS PRINCIPAL - Mi Rutina Semanal
+ * ==============================================================================
+ * Punto de entrada para Tailwind CSS y estilos personalizados de la aplicación.
+ * Combina las utilidades de Tailwind con componentes reutilizables y 
+ * animaciones optimizadas para rendimiento en móviles.
+ * ==============================================================================
+ */
+
+/* 1. DIRECTIVAS DE TAILWIND CSS (Orden obligatorio) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==============================================================================
+   2. ESTILOS BASE (Reset y configuraciones globales)
+   ============================================================================== */
+@layer base {
+  /* Suavizado de fuentes para mejor legibilidad */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Scrollbar personalizado (Webkit: Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
+
+  /* Scrollbar en modo oscuro */
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: #475569;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
+  }
+
+  /* Transición suave para cambios de tema */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Prevenir el "flash" de tema incorrecto al cargar */
+  html.dark body {
+    background-color: #0f172a;
+    color: #f1f5f9;
+  }
+}
+
+/* ==============================================================================
+   3. COMPONENTES PERSONALIZADOS
+   ============================================================================== */
+@layer components {
+  /* --- Botones de Tipo de Gráfica --- */
+  .chart-btn {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .chart-btn:hover:not(.active) {
+    @apply transform -translate-y-0.5 shadow-md;
+  }
+
+  .chart-btn.active {
+    @apply bg-primary border-primary text-white shadow-lg transform -translate-y-0.5;
+  }
+
+  /* --- Checkbox Personalizado (fallback si Tailwind peer no es suficiente) --- */
+  .task-checkbox {
+    @apply relative cursor-pointer transition-all duration-200;
+  }
+
+  .task-checkbox:checked {
+    @apply bg-emerald-500 border-emerald-500;
+  }
+
+  .task-checkbox:checked::after {
+    content: '✓';
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-xs font-bold;
+  }
+
+  /* --- Barras de Progreso --- */
+  .progress-bar-fill {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  /* --- Textarea de Observaciones --- */
+  .obs-input {
+    @apply min-h-[60px] transition-all duration-200;
+  }
+
+  .obs-input:focus {
+    @apply bg-white dark:bg-slate-800 shadow-sm;
+  }
+
+  /* --- Tarjetas de Estadísticas --- */
+  .stat-card {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .stat-card:hover {
+    @apply transform -translate-y-1 shadow-lg;
+  }
+
+  /* --- Badge de Racha --- */
+  #streakBadge {
+    @apply transition-transform duration-300;
+  }
+
+  #streakBadge:hover {
+    @apply transform scale-105;
+  }
+
+  /* --- Panel de Instrucciones (Animación de entrada) --- */
+  #instructionsPanel {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  #instructionsPanel:not(.hidden) {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  /* --- Tabla de Tareas --- */
+  #taskTable {
+    @apply border-separate border-spacing-0;
+  }
+
+  #taskTable th {
+    @apply sticky top-0 z-10 backdrop-blur-sm;
+  }
+}
+
+/* ==============================================================================
+   4. UTILIDADES PERSONALIZADAS
+   ============================================================================== */
+@layer utilities {
+  /* Utilidad para ocultar elementos manteniendo accesibilidad (screen-reader only) */
+  .sr-only-focusable:focus {
+    @apply static w-auto h-auto p-2 overflow-visible;
+  }
+
+  /* Utilidad para forzar el modo oscuro en elementos específicos */
+  .force-dark {
+    @apply bg-slate-900 text-slate-100;
+  }
+}
+
+/* ==============================================================================
+   5. ANIMACIONES KEYFRAMES
+   ============================================================================== */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ==============================================================================
+   6. MEDIA QUERIES Y OPTIMIZACIONES MÓVILES
+   ============================================================================== */
+@media (max-width: 640px) {
+  /* Ajustes específicos para móviles pequeños */
+  .chart-btn {
+    @apply text-xs px-2 py-1;
+  }
+
+  #streakBadge {
+    @apply px-3 py-1 text-xs;
+  }
+}
+
+/* ==============================================================================
+   7. MODO DE IMPRESIÓN (Print Styles)
+   ============================================================================== */
+@media print {
+  /* Ocultar elementos interactivos al imprimir */
+  #themeBtn,
+  #btnInstructions,
+  #btnNotif,
+  #btnExport,
+  #btnReset,
+  .chart-controls {
+    display: none !important;
+  }
+
+  /* Asegurar que los colores de fondo se impriman */
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ajustar la tabla para impresión */
+  #taskTable {
+    @apply text-xs;
+  }
+}
+
+/* Checkbox personalizado con checkmark integrado */
+.task-checkbox:checked {
+  background-color: #10b981;
+  border-color: #10b981;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.dark .task-checkbox:checked {
+  background-color: #34d399;
+  border-color: #34d399;
+}

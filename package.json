@@ -1,0 +1,43 @@
+{
+  "name": "mi-rutina-semanal",
+  "version": "1.0.0",
+  "description": "PWA para gestión inteligente de tareas y hábitos semanales",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "format": "prettier --write src/",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "docker:build": "docker build -t mi-rutina-semanal .",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.6.1",
+    "eslint": "^8.56.0",
+    "postcss": "^8.5.28",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.4.19",
+    "vite": "^5.4.21",
+    "vite-plugin-pwa": "^0.17.5",
+    "vitest": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "postcss.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
